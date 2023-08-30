@@ -82,7 +82,7 @@ int main(void){
     int turn = 1;
     int player_turn = 0;
 	cout << "An Enemy has appeared!! What will you do?? \n";
-	while (input != 4){
+	while (input != 7){
         cout << players[player_turn] << "\n";
 		cout << "Press 1 to Attack\n";
 		cout << "Press 2 to Use Magic\n";

@@ -1,7 +1,6 @@
 #include <iostream>
 using namespace std;
 
-std::ostringstream oss;
 class Node {
 	public:
 		Node *next;
