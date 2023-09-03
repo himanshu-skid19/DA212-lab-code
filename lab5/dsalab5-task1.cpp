@@ -25,11 +25,10 @@ class stack {
 
 		void IsEmpty(){
 			if (top == NULL){
-				printf("The stack is empty\n");
-				return;
+				return 0;
 			}
 			printf("The stack is not empty\n");
-			return;
+			return 1;
 		}
 
 		void push(int data){
@@ -67,6 +66,10 @@ class stack {
 			delete temp;
 			return;
 		}
+
+		int get_top(){
+			return top->data;
+		}
 };
 
 class queue {
@@ -75,13 +78,13 @@ class queue {
 	public:
 		queue() {head = NULL; tail == NULL;}
 
-		void IsEmpty(){
+		bool IsEmpty(){
 			if (head == NULL){
 				printf("The queue is empty\n");
-				return;
+				return 0;
 			}
 			printf("The queue is not empty\n");
-			return;
+			return 1;
 		}
 
 		void enqueue(int data){
@@ -121,20 +124,28 @@ class queue {
 			delete temp;
 			return;
 		}
+
+		int front(){
+			if (head == NULL){
+				printf("Queue is empty\n");
+				return 0;
+			}
+			return head->data;
+		}
 };
 
 int main(void){
-	stack s;
-
-	s.IsEmpty();
-	s.push(3);
-	s.push(4);
-	s.push(5);
-	s.push(6);
-	s.printstack();
-	s.pop();
-	s.pop();
-	s.printstack();
+	// stack s;
+ //
+	// s.IsEmpty();
+	// s.push(3);
+	// s.push(4);
+	// s.push(5);
+	// s.push(6);
+	// s.printstack();
+	// s.pop();
+	// s.pop();
+	// s.printstack();
 
 	queue q;
 
@@ -147,9 +158,7 @@ int main(void){
 
 	q.dequeue();
 	q.dequeue();
-	q.dequeue();
-	q.dequeue();
 	q.printqueue();
-
+	cout << q.front() << '\n';
 
 }
