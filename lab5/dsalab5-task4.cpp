@@ -143,68 +143,129 @@ class Queue {
 
 int main(void){
     Stack s1;
-
-    auto start1 = high_resolution_clock::now();
-    s1.push(1);
-    auto stop1 = high_resolution_clock::now();
-    auto duration = duration_cast<nanoseconds>(stop1 - start1);
-    cout << "Time taken by my function to push in stack is: "
+	 int n = 1;
+	 cout << "Perfomance of my Implementation of Stacks: \n";
+	 cout << "\n";
+	 while (n <= 100000){
+		auto start = high_resolution_clock::now();
+		 for (int i = 0; i < n; i++){
+			 s1.push(0);
+		}
+		auto stop = high_resolution_clock::now();
+		auto duration = duration_cast<nanoseconds>(stop - start);
+		cout << "Time taken by my function to push " << n <<" elements in stack is: "
          << duration.count() << " nanoseconds" << endl;
+		n = n*10;
+	}
 
-	auto start = high_resolution_clock::now();
-    s1.pop();
-    auto stop = high_resolution_clock::now();
-    auto duration1 = duration_cast<nanoseconds>(stop - start);
-    cout << "Time taken by my function to pop in stack is: "
-         << duration1.count() << " nanoseconds" << endl;
+	n = 1;
+	cout << "\n";
+	while (n <= 100000){
+		auto start = high_resolution_clock::now();
+		 for (int i = 0; i < n; i++){
+			 s1.pop();
+		}
+		auto stop = high_resolution_clock::now();
+		auto duration = duration_cast<nanoseconds>(stop - start);
+		cout << "Time taken by my function to pop " << n <<" elements in stack is: "
+         << duration.count() << " nanoseconds" << endl;
+		n = n*10;
+	}
 
-    stack<int> s2;
 
-    auto start2 = high_resolution_clock::now();
-    s2.push(1);
-    auto stop2 = high_resolution_clock::now();
-    auto duration2 = duration_cast<nanoseconds>(stop2 - start2);
-    cout << "Time taken by the STL function to push in stack: "
-         << duration2.count() << " nanoseconds" << endl;
+	stack<int> s2;
+	cout << "\n";
+	cout << "Perfomance of the STL function: \n";
+	cout << "\n";
+	n = 1;
+	 while (n <= 100000){
+		auto start = high_resolution_clock::now();
+		 for (int i = 0; i < n; i++){
+			 s2.push(0);
+		}
+		auto stop = high_resolution_clock::now();
+		auto duration = duration_cast<nanoseconds>(stop - start);
+		cout << "Time taken by STL function to push " << n <<" elements in stack is: "
+         << duration.count() << " nanoseconds" << endl;
+		n = n*10;
+	}
 
-	auto start5 = high_resolution_clock::now();
-    s2.pop();
-    auto stop5 = high_resolution_clock::now();
-    auto duration5 = duration_cast<nanoseconds>(stop5 - start5);
-    cout << "Time taken by the STL function to pop in stack: "
-         << duration5.count() << " nanoseconds" << endl;
+	n = 1;
+	cout << "\n";
+	while (n <= 100000){
+		auto start = high_resolution_clock::now();
+		 for (int i = 0; i < n; i++){
+			 s2.pop();
+		}
+		auto stop = high_resolution_clock::now();
+		auto duration = duration_cast<nanoseconds>(stop - start);
+		cout << "Time taken by STL function to pop " << n <<" elements in stack is: "
+         << duration.count() << " nanoseconds" << endl;
+		n = n*10;
+	}
+
+
 
 	Queue q1;
+	cout << "\n";
+	cout << "Perfomance of my Queue Implementation: \n";
+	cout << "\n";
+	n = 1;
+	 while (n <= 100000){
+		auto start = high_resolution_clock::now();
+		 for (int i = 0; i < n; i++){
+			 q1.enqueue(0);
+		}
+		auto stop = high_resolution_clock::now();
+		auto duration = duration_cast<nanoseconds>(stop - start);
+		cout << "Time taken by my function to enqueue " << n <<" elements is: "
+         << duration.count() << " nanoseconds" << endl;
+		n = n*10;
+	}
 
-    auto start3 = high_resolution_clock::now();
-    q1.enqueue(1);
-    auto stop3 = high_resolution_clock::now();
-    auto duration3 = duration_cast<nanoseconds>(stop3 - start3);
-    cout << "Time taken by my function to enqueue is: "
-         << duration3.count() << " nanoseconds" << endl;
+	n = 1;
+	cout << "\n";
+	while (n <= 100000){
+		auto start = high_resolution_clock::now();
+		 for (int i = 0; i < n; i++){
+			 q1.dequeue();
+		}
+		auto stop = high_resolution_clock::now();
+		auto duration = duration_cast<nanoseconds>(stop - start);
+		cout << "Time taken by my function to dequeue " << n <<" elements is: "
+         << duration.count() << " nanoseconds" << endl;
+		n = n*10;
+	}
 
-	auto start6 = high_resolution_clock::now();
-    q1.dequeue();
-    auto stop6 = high_resolution_clock::now();
-    auto duration6 = duration_cast<nanoseconds>(stop6 - start6);
-    cout << "Time taken by my function to dequeue is: "
-         << duration6.count() << " nanoseconds" << endl;
+	queue<int> q2;
+	cout << "\n";
+	cout << "Perfomance of the STL Queue Implementation: \n";
+	cout << "\n";
+	n = 1;
+	 while (n <= 100000){
+		auto start = high_resolution_clock::now();
+		 for (int i = 0; i < n; i++){
+			 q2.push(0);
+		}
+		auto stop = high_resolution_clock::now();
+		auto duration = duration_cast<nanoseconds>(stop - start);
+		cout << "Time taken by STL function to enqueue " << n <<" elements is: "
+         << duration.count() << " nanoseconds" << endl;
+		n = n*10;
+	}
 
-    queue<int> q2;
-    auto start4 = high_resolution_clock::now();
-    q2.push(1);
-    auto stop4 = high_resolution_clock::now();
-    auto duration4 = duration_cast<nanoseconds>(stop4 - start4);
-    cout << "Time taken by the STL function to enqueue is: "
-         << duration4.count() << " nanoseconds" << endl;
-
-    auto start7 = high_resolution_clock::now();
-    q2.pop();
-    auto stop7 = high_resolution_clock::now();
-    auto duration7 = duration_cast<nanoseconds>(stop7 - start7);
-    cout << "Time taken by the STL function to dequeue is: "
-         << duration7.count() << " nanoseconds" << endl;
-
-
+	n = 1;
+	cout << "\n";
+	while (n <= 100000){
+		auto start = high_resolution_clock::now();
+		 for (int i = 0; i < n; i++){
+			 q2.pop();
+		}
+		auto stop = high_resolution_clock::now();
+		auto duration = duration_cast<nanoseconds>(stop - start);
+		cout << "Time taken by STL function to dequeue " << n <<" elements is: "
+         << duration.count() << " nanoseconds" << endl;
+		n = n*10;
+	}
 
 }
