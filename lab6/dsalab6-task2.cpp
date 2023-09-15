@@ -1,4 +1,8 @@
 #include <iostream>
+#include <string.h>
+
+// Hello, This program is simple password manager that securely stores your password and verifies later if your password is valid or not. Note, the password must only contain numbers. Since this is a password storing application, an application can have more than one stored password but the validity depends on the application itself and does not concern the password manager*//
+
 using namespace std;
 
 class Node {
@@ -153,6 +157,7 @@ class doubly_linked_list {
 class hash_table {
     int m;
     int *table;
+    string *name;
 
 	struct chain{
 		int data;
@@ -160,26 +165,28 @@ class hash_table {
 	};
 	chain **head;
     public:
-        hash_table() {m = 0; table = nullptr; head = nullptr;}
+        hash_table() {m = 0; table = nullptr; head = nullptr; name = nullptr;}
         void initialize(int length){
             m = length;
             table = new int[m];
 			head = new chain*[m];
+            name = new string[m];
             for (int i = 0; i < m; i++) {
                 table[i] = -1;
 				head[i] = nullptr;
-
+                name[i] = "";
 			}
 		}
         int hash(int k){
             return k % m;
         }
 
-        void insert(int k){
+        void insert(string app, int k){
             int index = hash(k);
 			if (table[index] == -1){
 				if (index >= 0 && index < m) {
                 table[index] = k;
+                name[index] = app;
 				}
 				else {
                 cout << "Index out of bounds\n";
@@ -200,21 +207,15 @@ class hash_table {
 			}
 		}
 
-        void search(int k){
-           int index = hash(k);
-			if (table[index] == k) {
-				cout << "Element found at position " << index << "\n";
-			} else {
-				chain* curr = head[index];
-				while (curr != nullptr) {
-					if (curr->data == k) {
-						cout << "Element found at position " << index << " in linked list.\n";
-						return;
-					}
-					curr = curr->next;
-					}
-				cout << "Element not found\n";
-			}
+        void search(string app){
+            for (int i = 0; i < m; i++){
+                if (name[i] == app){
+                    cout << table[i] << "\n";
+                    return;
+                }
+            }
+            cout << "Not found\n";
+
 
         }
 
@@ -245,7 +246,7 @@ class hash_table {
 
         void printtable(){
             for (int i = 0; i < m; i++) {
-            cout <<  i << ": " << table[i] << " ";
+            cout << name[i]<<" : " << table[i] << " ";
 
             chain* curr = head[i];
             while (curr != nullptr) {
@@ -257,12 +258,15 @@ class hash_table {
         }
 };
 
+using namespace std;
+
 int main(void){
     hash_table h;
 
 	int input;
 	while (input != 6){
-		cout << "Enter 1 to initialize the hash table\n";
+        cout << "Welcome to your Password Manager\n";
+		cout << "Enter 1 to initialize password manager\n";
 		cout << "Enter 2 to insert into the hash table\n";
 		cout << "Enter 3 to delete an element in the hash table\n";
 		cout << "Enter 4 to search for an entry in the hash table\n";
@@ -273,32 +277,36 @@ int main(void){
 		switch (input){
 			case 1:
 				int length;
-				cout << "Enter the length of the hash table you want to initialize: \n";
+				cout << "Enter how many password you would like to store: \n";
 				cin >> length;
 				h.initialize(length);
 				break;
-			case 2:
-				int element;
-				cout << "Input the element you to insert into the hash table: \n";
-				cin >> element;
-				h.insert(element);
+            case 2:{
+				string app;
+                int password;
+				cout << "Enter the Name of the website/app: \n";
+				cin >> app;
+                cout << "Enter the password: (Note that the password should contain numbers only)\n";
+                cin >> password;
+				h.insert(app, password);
 				break;
+            }
 			case 3:
 				int key;
-				cout << "Input the element you to delete in the hash table: \n";
+				cout << "Enter the password you want to remove: \n";
 				cin >> key;;
 				h.delete_element(key);
 				break;
-			case 4:
-				int element_;
-				cout << "Input the element you to search for in the hash table: \n";
+			case 4:{
+				string element_;
+				cout << "Enter the name of the app/website: \n";
 				cin >> element_;
 				h.search(element_);
 				break;
+            }
 			case 5:
 				h.printtable();
 				break;
 		}
 	}
-
 }
