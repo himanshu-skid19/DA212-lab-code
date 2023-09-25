@@ -206,20 +206,18 @@ class hash_table {
 			}
 		}
 
-        void search(int k){
+        int search(int k){
            int index = hash(k);
 			if (table[index] == k) {
-				cout << "Element found at position " << index << "\n";
+				return index;
 			} else {
 				chain* curr = head[index];
 				while (curr != nullptr) {
 					if (curr->data == k) {
-						cout << "Element found at position " << index << " in linked list.\n";
-						return;
+						return index;
 					}
 					curr = curr->next;
 					}
-				cout << "Element not found\n";
 			}
 
         }
@@ -273,12 +271,31 @@ int main(void){
 		h.initialize(n);
 		auto start = high_resolution_clock::now();
 		 for (int i = 0; i < n; i++){
-			 h.insert(0);
+			 h.insert(i);
 		}
 		auto stop = high_resolution_clock::now();
 		auto duration = duration_cast<nanoseconds>(stop - start);
 		cout << "Time taken by my function to insert " << n <<" elements in my hash table is: "
          << duration.count() << " nanoseconds" << endl;
+
+		auto start2 = high_resolution_clock::now();
+		h.search(0);
+		auto stop2 = high_resolution_clock::now();
+		auto duration2 = duration_cast<nanoseconds>(stop2 - start2);
+		cout << "Time taken by my function to search for an element in a  " << n <<" element hash table is: "
+         << duration2.count() << " nanoseconds" << endl;
+
+		auto start1 = high_resolution_clock::now();
+		 for (int i = 0; i < n; i++){
+			 h.delete_element(i);
+		}
+		auto stop1 = high_resolution_clock::now();
+		auto duration1 = duration_cast<nanoseconds>(stop1 - start1);
+		cout << "Time taken by my function to delete " << n <<" elements in my hash table is: "
+         << duration1.count() << " nanoseconds" << endl;
+
+		 cout << "\n";
+
 		n = n*10;
 	}
 
@@ -294,7 +311,24 @@ int main(void){
 		auto duration = duration_cast<nanoseconds>(stop - start);
 		cout << "Time taken by STL unordered_map to insert " << n <<" elements is: "
          << duration.count() << " nanoseconds" << endl;
+
+		auto start1 = high_resolution_clock::now();
+		umap.find(0);
+		auto stop1 = high_resolution_clock::now();
+		auto duration1 = duration_cast<nanoseconds>(stop1 - start1);
+		cout << "Time taken by my function to search for an element in a  " << n <<" element hash table is: "
+         << duration1.count() << " nanoseconds" << endl;
+
+		auto start2 = high_resolution_clock::now();
+		 for (int i = 0; i < n; i++){
+			 umap.erase(i);
+		}
+		auto stop2 = high_resolution_clock::now();
+		auto duration2 = duration_cast<nanoseconds>(stop2 - start2);
+		cout << "Time taken by STL unordered_map to delete " << n <<" elements is: "
+         << duration2.count() << " nanoseconds" << endl;
 		n = n*10;
+		cout << "\n";
 	}
 
 
