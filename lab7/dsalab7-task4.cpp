@@ -8,26 +8,26 @@ class heap {
 		int head;
 		int MAX;
 	public:
-		heap(int heap_size){
-			this->heap_size = heap_size;
-			A = new int[heap_size];
-			head = 0;
-			MAX = heap_size;
+		heap(int MAX){
+			this->MAX = MAX;
+			A = new int[MAX];
+			this->head = -1;
+			this->heap_size = 0;
 		}
 		
 		void insert(int data){
-			if (head == heap_size){
+			if (head == MAX-1){
 				cout << "heap is full\n";
 				return;
 			}
-			
-			A[head] = data;
 			head = head+1;
+			A[head] = data;
+			heap_size++;
 			max_heap();
 		}
 		
 		void print_heap(){
-			for (int i = 0; i < head; i++){
+			for (int i = 0; i < heap_size; i++){
 				cout << A[i] << " ";
 			}
 			cout << "\n";
