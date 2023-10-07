@@ -73,7 +73,7 @@ public:
    void deleteVertex(int data){
         int j = get_index_from_adjlist(data);
         if (j == -1){
-            cout << "Vertex not found";
+            cout << "Vertex not found\n";
             return;
         }
 
@@ -114,6 +114,47 @@ public:
         }
    }
 
+    void deleteEdge(int u, int v){
+        int m = get_index_from_adjlist(u);
+        int n = get_index_from_adjlist(v);
+        if (m == -1 || n == -1){
+            cout << "Vertex not found\n";
+            return;
+        }
+
+        Vertex *curr = adjList[m];
+        Vertex *prev = curr;
+        curr = curr->next;
+        while (curr != nullptr){
+            if (curr -> data == v){
+                prev->next = curr->next;
+                delete curr;
+                break;
+            }
+            else{
+                prev = curr;
+                curr = curr->next;
+            }
+
+    }
+        curr = adjList[n];
+        prev = curr;
+        curr = curr->next;
+            while (curr != nullptr){
+            if (curr -> data == u){
+                prev->next = curr->next;
+                delete curr;
+                break;
+            }
+            else{
+                prev = curr;
+                curr = curr->next;
+            }
+
+        }
+
+   }
+
     void printGraph() {
         for (int i = 0; i < head; ++i){
             Vertex *curr = adjList[i];
@@ -136,22 +177,57 @@ public:
 };
 
 int main(void){
-    Graph graph(5);
+    cout << "Welcome to this program, how many vertices do you want your graph to have? \n";
+    int num;
+    cin >> num;
+    Graph graph(num);
 
-    graph.addVertex(4);
-    graph.addVertex(2);
-    graph.addVertex(3);
-    graph.addVertex(1);
-    graph.addVertex(0);
+    int input;
+	while (input != 6){
+		cout << "Enter 1 to add a vertex to the graph\n";
+		cout << "Enter 2 to add an edge between two vertices\n";
+		cout << "Enter 3 to delete a vertex from the graph\n";
+		cout << "Enter 4 to delete a edge between two vertices\n";
+		cout << "Enter 5 to print the adjacency list representing the graph\n";
+		cout << "Enter 6 to exit the program\n";
+		cout << "What do you want to do? \n";
+		cin >> input;
+		switch (input){
+			case 1:
+				int val;
+				cout << "Enter the value of the vertex: \n";
+				cin >> val;
+				graph.addVertex(val);
+				break;
+			case 2:
+				int m;
+                int n;
+                cout << "Enter the value of the first vertex: \n";
+				cin >> m;
+                cout << "Enter the value of the second vertex: \n";
+				cin >> n;
+				graph.addEdge(m, n);
+				break;
+			case 3:
+				int key;
+				cout << "Enter the value of the vertex you want to delete: \n";
+				cin >> key;;
+				graph.deleteVertex(key);
+				break;
+			case 4:
+				int x;
+                int y;
+                cout << "Enter the value of the first vertex: \n";
+				cin >> x;
+                cout << "Enter the value of the second vertex: \n";
+				cin >> y;
+				graph.deleteEdge(x, y);
+				break;
+			case 5:
+				graph.printGraph();
+				break;
+		}
+	}
 
-    graph.addEdge(4,2);
-    graph.addEdge(4,3);
-    graph.addEdge(2,1);
-    graph.addEdge(3,0);
 
-    graph.printGraph();
-    graph.deleteVertex(2);
-    cout << "\n";
-    graph.printGraph();
-    // graph.printGraph();
 }
