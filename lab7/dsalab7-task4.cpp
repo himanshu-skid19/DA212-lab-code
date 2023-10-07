@@ -6,11 +6,13 @@ class heap {
 		int heap_size;
 		int *A;
 		int head;
+		int MAX;
 	public:
 		heap(int heap_size){
 			this->heap_size = heap_size;
 			A = new int[heap_size];
 			head = 0;
+			MAX = heap_size;
 		}
 		
 		void insert(int data){
@@ -21,6 +23,7 @@ class heap {
 			
 			A[head] = data;
 			head = head+1;
+			max_heap();
 		}
 		
 		void print_heap(){
@@ -59,32 +62,113 @@ class heap {
 		void max_heap(){
 			build_max_heap(heap_size);
 		}
-		
+
+
+		int get_index_of_data(int data){
+			for (int i = 0; i < heap_size; i++){
+				if (A[i] == data){
+					return i;
+				}
+			}
+			return -1;
+		}
+
+		void search(int data){
+			int i = get_index_of_data(data);
+			if (i != -1){
+				cout << "Element found at position " << i << "\n";
+				return;
+			}
+			cout << "element not found \n";
+			return;
+
+		}
 		void delete_node(int data){
 			int iter = 0;
-			while (A[iter] != data]){
+			if (get_index_of_data(data) == -1){
+				cout << "Element not in heap\n";
+				return;
+			}
+			while (A[iter] != data){
 				iter++;
 			}
+
 			while (iter < heap_size){
 				A[iter] = A[iter+1];
-				
+				iter++;
 			}
+			heap_size--;
+			head--;
+			max_heap();
+		}
+
+		void get_root(){
+			cout << A[0] << "\n";
+		}
+
+		void heapsort(){
+			int x = heap_size;
+			for (int i = heap_size-1; i > 0; i--){
+				int temp = A[0];
+				A[0] = A[i];
+				A[i] = temp;
+				heap_size--;
+				max_heap();
+			}
+			heap_size = x;
 		}
 };
 
 int main(void){
-	heap h(10);
-	h.insert(1);
-	h.insert(14);
-	h.insert(7);
-	h.insert(10);
-	h.insert(8);
-	h.insert(4);
-	h.insert(9);
-	h.insert(16);
-	h.insert(3);
-	h.insert(2);
-	h.print_heap();
-	h.max_heap();
-	h.print_heap();
+	cout << "Welcome to this program, how many nodes do you want your heap to have? \n";
+    int num;
+    cin >> num;
+	heap heap(num);
+
+    int input;
+	while (input != 8){
+		cout << "Enter 1 to add a node to the heap\n";
+		cout << "Enter 2 to enforce max heap property manually\n";
+		cout << "Enter 3 to delete a node from the heap\n";
+		cout << "Enter 4 to search for an element in the heap\n";
+		cout << "Enter 5 to print root of the heap\n";
+		cout << "Enter 6 to print the heap\n";
+		cout << "Enter 7 to perform heapsort on this heap\n";
+		cout << "Enter 8 to exit the program\n";
+		cout << "What do you want to do? \n";
+		cin >> input;
+		switch (input){
+			case 1:
+				int val;
+				cout << "Enter the value of the node: \n";
+				cin >> val;
+				heap.insert(val);
+				break;
+			case 2:
+				heap.max_heap();
+				break;
+			case 3:
+				int key;
+				cout << "Enter the value of the node you want to delete: \n";
+				cin >> key;;
+				heap.delete_node(key);
+				break;
+			case 4:
+				int x;
+                cout << "Enter the value of the first vertex: \n";
+				cin >> x;
+				heap.search(x);
+				break;
+			case 5:
+				heap.get_root();
+				break;
+			case 6:
+				heap.print_heap();
+				break;
+			case 7:
+				heap.heapsort();
+				break;
+		}
+	}
+
 }
