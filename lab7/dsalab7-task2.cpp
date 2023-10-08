@@ -364,8 +364,6 @@ public:
         Vertex *curr = adjList[idx];
         curr = curr->next;
         while (curr != nullptr){
-            cout << curr->data << ", " << curr->color << endl;
-            cout << curr->data << ", " << t+1 << endl;
             if ( curr->color == "BLACK"){
                 curr = curr->next;
             }
@@ -389,7 +387,6 @@ public:
 
                 t++;
                 int x = get_index_from_adjlist(curr->data);
-                cout << endl;
                 for (int z = 0; z<head; z++){
                     Vertex *temp = adjList[z];
                     while (temp != nullptr){
@@ -430,27 +427,76 @@ public:
 };
 
 int main(void){
-    Graph graph(10);
-    graph.addVertex(1);
-    graph.addVertex(2);
-    graph.addVertex(3);
-    graph.addVertex(4);
-    graph.addVertex(5);
-    graph.addVertex(6);
+    cout << "Welcome to this program, how many vertices do you want your graph to have? \n";
+    int num;
+    cin >> num;
+    Graph graph(num);
 
+    int input;
+	while (input != 10){
+		cout << "Enter 1 to add a vertex to the graph\n";
+		cout << "Enter 2 to add an edge between two vertices\n";
+		cout << "Enter 3 to delete a vertex from the graph\n";
+		cout << "Enter 4 to delete a edge between two vertices\n";
+		cout << "Enter 5 to print the adjacency list representing the graph\n";
+        cout << "Enter 6 to get the number of edges in the graph\n";
+        cout << "Enter 7 to perform Breadth First Search (BFS) onthe graph\n";
+        cout << "Enter 8 to perform Depth First Search on the graph\n";
+        cout << "Enter 9 to check if the graph is a tree\n";
+		cout << "Enter 10 to exit the program\n";
+		cout << "What do you want to do? \n";
+		cin >> input;
+		switch (input){
+			case 1:
+				int val;
+				cout << "Enter the value of the vertex: \n";
+				cin >> val;
+				graph.addVertex(val);
+				break;
+			case 2:
+				int m;
+                int n;
+                cout << "Enter the value of the first vertex: \n";
+				cin >> m;
+                cout << "Enter the value of the second vertex: \n";
+				cin >> n;
+				graph.addEdge(m, n);
+				break;
+			case 3:
+				int key;
+				cout << "Enter the value of the vertex you want to delete: \n";
+				cin >> key;;
+				graph.deleteVertex(key);
+				break;
+			case 4:
+				int x;
+                int y;
+                cout << "Enter the value of the first vertex: \n";
+				cin >> x;
+                cout << "Enter the value of the second vertex: \n";
+				cin >> y;
+				graph.deleteEdge(x, y);
+				break;
+			case 5:
+				graph.printGraph();
+				break;
+            case 6:
+				cout << graph.get_num_edges() <<endl;
+				break;
 
-    graph.addEdge(1,2);
-    graph.addEdge(1,3);
-    graph.addEdge(2,4);
-    graph.addEdge(2,3);
-    graph.addEdge(3,4);
-    graph.addEdge(4,5);
-    graph.addEdge(5,6);
+            case 7:
+                int d;
+                cout << "Enter the element for which you want to perform the BFS: ";
+                cin >> d;
+				graph.BFS(d);
+				break;
 
-    graph.printGraph();
-    graph.BFS(2);
-    graph.find_tree();
-
-
-
+            case 8:
+				graph.DFS();
+				break;
+            case 9:
+				graph.find_tree();
+				break;
+		}
+	}
 }
