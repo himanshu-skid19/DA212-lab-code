@@ -7,6 +7,7 @@ struct Vertex {
     Vertex* next;
     string color;
     long long d;
+    long long f;
     Vertex *parent;
 };
 
@@ -91,6 +92,8 @@ class Graph {
         int numVertices;
         Vertex **adjList;
         int head;
+        long long t;
+        int num_edges;
 
 public:
     Graph(int numVertices){
@@ -100,6 +103,8 @@ public:
             adjList[i] = nullptr;
         }
         head = 0;
+        this->t = 0;
+        this->num_edges=0;
     }
 
     int get_index_from_adjlist(int u){
@@ -135,6 +140,8 @@ public:
         }
         curr->next = newNode;
         newNode->next = NULL;
+
+        num_edges++;
     }
 
     void addVertex(int data){
@@ -277,7 +284,7 @@ public:
                 if (curr->color == "WHITE" && curr->color != "BLACK"){
 
                     int x = get_index_from_adjlist(curr->data);
-                    for (int z = 0; z<numVertices; z++){
+                    for (int z = 0; z<head; z++){
                         Vertex *temp = adjList[z];
                         while (temp != nullptr){
                             if (temp->data == curr->data){
@@ -313,6 +320,113 @@ public:
         }
     }
 
+    void DFS(){
+        for (int j = 0; j < head; j++){
+            Vertex *curr = adjList[j];
+            while (curr != nullptr){
+                curr->color = "WHITE";
+                curr->d = -1;
+                curr->f = -1;
+                curr->parent = NULL;
+                curr=curr->next;
+
+            }
+        }
+        t = 0;
+        for (int j = 0; j < head; j++){
+            Vertex *curr = adjList[j];
+            if (curr->color == "WHITE"){
+                DFS_VISIT(curr->data);
+            }
+            curr=curr->next;
+
+        }
+        cout << "Vertex : timestamp 1 | timestamp 2\n";
+        for (int i = 0; i < head; i++){
+            cout << adjList[i] -> data << " : " <<  adjList[i]->d << ", "<<adjList[i]->f <<endl;
+        }
+    }
+
+    void DFS_VISIT(int data){
+        t++;
+        for (int z = 0; z<head; z++){
+            Vertex *temp = adjList[z];
+            while (temp != nullptr){
+                if (temp->data == data){
+                    temp->d = t;
+                    temp->color = "GRAY";
+
+                }
+                temp = temp->next;
+            }
+        }
+        int idx = get_index_from_adjlist(data);
+        Vertex *curr = adjList[idx];
+        curr = curr->next;
+        while (curr != nullptr){
+            cout << curr->data << ", " << curr->color << endl;
+            cout << curr->data << ", " << t+1 << endl;
+            if ( curr->color == "BLACK"){
+                curr = curr->next;
+            }
+            else{
+
+                if (curr->color == "WHITE"){
+
+                    int x = get_index_from_adjlist(curr->data);
+                    for (int z = 0; z<head; z++){
+                        Vertex *temp = adjList[z];
+                        while (temp != nullptr){
+                            if (temp->data == curr->data){
+                                temp->parent = adjList[idx];
+
+                            }
+                            temp = temp->next;
+                        }
+                    };
+                    DFS_VISIT(curr->data);
+                }
+
+                t++;
+                int x = get_index_from_adjlist(curr->data);
+                cout << endl;
+                for (int z = 0; z<head; z++){
+                    Vertex *temp = adjList[z];
+                    while (temp != nullptr){
+                        if (temp->data == curr->data){
+                            temp->f = t;
+                            temp->color = "BLACK";
+
+                        }
+                        temp = temp->next;
+                    }
+                };
+                curr = curr->next;
+            }
+        }
+
+    }
+
+    int get_num_edges(){
+        return num_edges;
+    }
+
+    void find_tree(){
+        int count = 0;
+        for (int i = 0; i < head; i++){
+            if (adjList[i]->next == NULL){
+                count++;
+            }
+        }
+        cout << head <<endl;
+
+        if (count != 0 && (get_num_edges() != head-1)){
+            cout << "Graph is not a tree\n";
+            return;
+        }
+        cout << "Graph is a tree\n";
+        return;
+    }
 };
 
 int main(void){
@@ -323,35 +437,19 @@ int main(void){
     graph.addVertex(4);
     graph.addVertex(5);
     graph.addVertex(6);
-    graph.addVertex(7);
-    graph.addVertex(8);
-    graph.addVertex(9);
+
 
     graph.addEdge(1,2);
     graph.addEdge(1,3);
+    graph.addEdge(2,4);
     graph.addEdge(2,3);
-    graph.addEdge(2,9);
     graph.addEdge(3,4);
-    graph.addEdge(3,6);
     graph.addEdge(4,5);
-    graph.addEdge(4,9);
     graph.addEdge(5,6);
-    graph.addEdge(5,8);
-    graph.addEdge(6,7);
-    graph.addEdge(7,8);
-    graph.addEdge(8,9);
 
     graph.printGraph();
-
-    graph.BFS(5);
-
-
-
-
-
-
-
-
+    graph.BFS(2);
+    graph.find_tree();
 
 
 
