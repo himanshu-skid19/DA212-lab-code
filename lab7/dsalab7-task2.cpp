@@ -257,8 +257,6 @@ public:
 
 
     void BFS(int data){
-        Graph g2(numVertices);
-
         int i = get_index_from_adjlist(data);
         for (int j = 0; j < head; j++){
             Vertex *curr = adjList[j];
@@ -320,87 +318,55 @@ public:
         }
     }
 
+    int isEdge(int u, int v){
+        int idx = get_index_from_adjlist(u);
+        Vertex *curr = adjList[idx];
+        while (curr != nullptr){
+            if (curr->data == v){
+                return 0;
+            }
+            curr= curr->next;
+        }
+
+        return 1;
+    }
+
     void DFS(){
         for (int j = 0; j < head; j++){
             Vertex *curr = adjList[j];
             while (curr != nullptr){
-                curr->color = "WHITE";
-                curr->d = -1;
-                curr->f = -1;
-                curr->parent = NULL;
-                curr=curr->next;
-
-            }
-        }
-        t = 0;
-        for (int j = 0; j < head; j++){
-            Vertex *curr = adjList[j];
-            if (curr->color == "WHITE"){
-                DFS_VISIT(curr->data);
-            }
+            curr->color = "WHITE";
+            curr->d = 1e18;
+            curr->parent = NULL;
             curr=curr->next;
 
+            }
         }
-        cout << "Vertex : timestamp 1 | timestamp 2\n";
+        string col = adjList[0]->color;
+        DFS_RUN(0, col);
+
+        cout << "Vertex : timestamp for first visit | timestamp for final visit\n";
         for (int i = 0; i < head; i++){
-            cout << adjList[i] -> data << " : " <<  adjList[i]->d << ", "<<adjList[i]->f <<endl;
+            cout << adjList[i] -> data << " : " <<  adjList[i]->d << " | " << adjList[i]->f << endl;
         }
+
     }
 
-    void DFS_VISIT(int data){
+    void DFS_RUN(int u, string col){
         t++;
-        for (int z = 0; z<head; z++){
-            Vertex *temp = adjList[z];
-            while (temp != nullptr){
-                if (temp->data == data){
-                    temp->d = t;
-                    temp->color = "GRAY";
+        adjList[u]->color = "GRAY";
+        adjList[u]->d = t;
 
-                }
-                temp = temp->next;
+        for (int i = 0; i < head; i++){
+            if (isEdge(adjList[u]->data, adjList[i]->data) ==0  && adjList[i]->color == "WHITE"){
+                DFS_RUN(i, "WHITE");
             }
+
         }
-        int idx = get_index_from_adjlist(data);
-        Vertex *curr = adjList[idx];
-        curr = curr->next;
-        while (curr != nullptr){
-            if ( curr->color == "BLACK"){
-                curr = curr->next;
-            }
-            else{
+        t++;
+        adjList[u]->color = "BLACK";
+        adjList[u]->f = t;
 
-                if (curr->color == "WHITE"){
-
-                    int x = get_index_from_adjlist(curr->data);
-                    for (int z = 0; z<head; z++){
-                        Vertex *temp = adjList[z];
-                        while (temp != nullptr){
-                            if (temp->data == curr->data){
-                                temp->parent = adjList[idx];
-
-                            }
-                            temp = temp->next;
-                        }
-                    };
-                    DFS_VISIT(curr->data);
-                }
-
-                t++;
-                int x = get_index_from_adjlist(curr->data);
-                for (int z = 0; z<head; z++){
-                    Vertex *temp = adjList[z];
-                    while (temp != nullptr){
-                        if (temp->data == curr->data){
-                            temp->f = t;
-                            temp->color = "BLACK";
-
-                        }
-                        temp = temp->next;
-                    }
-                };
-                curr = curr->next;
-            }
-        }
 
     }
 
@@ -499,4 +465,5 @@ int main(void){
 				break;
 		}
 	}
+
 }
